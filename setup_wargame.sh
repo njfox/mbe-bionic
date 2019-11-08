@@ -39,6 +39,11 @@ apt-get -y install python3-venv python3-pip libssl-dev libffi-dev
 apt install -y gdb=8.1-0ubuntu3
 sudo apt-mark hold gdb
 
+# downgrade dash to allow setuid binaries to work with system(/bin/sh)
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=734869
+wget http://ftp.us.debian.org/debian/pool/main/d/dash/dash_0.5.7-4+b1_amd64.deb
+sudo dpkg -i dash_0.5.7-4+b1_amd64.deb
+
 sudo dpkg-reconfigure -f noninteractive -plow unattended-upgrades
 
 # download levels
