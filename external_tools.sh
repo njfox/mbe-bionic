@@ -53,9 +53,9 @@ export -f install_checksec
 function install_radare2 {
   OPWD=$PWD
   cd $TOOLS_DIR
-  sudo -u $REALUSER git clone https://github.com/radare/radare2.git
+  git clone https://github.com/radare/radare2.git
   cd radare2
-  sudo -u $REALUSER ./sys/install.sh
+  ./sys/install.sh
   echo "[+] Installed radare2!"
   cd $OPWD
 }
