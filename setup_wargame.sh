@@ -43,6 +43,7 @@ sudo apt-mark hold gdb
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=734869
 wget http://ftp.us.debian.org/debian/pool/main/d/dash/dash_0.5.7-4+b1_amd64.deb
 sudo dpkg -i dash_0.5.7-4+b1_amd64.deb
+sudo apt-mark hold dash
 
 sudo dpkg-reconfigure -f noninteractive -plow unattended-upgrades
 
