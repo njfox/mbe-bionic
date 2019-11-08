@@ -42,8 +42,15 @@ sudo apt-mark hold gdb
 # downgrade dash to allow setuid binaries to work with system(/bin/sh)
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=734869
 wget http://ftp.us.debian.org/debian/pool/main/d/dash/dash_0.5.7-4+b1_amd64.deb
-sudo dpkg -i dash_0.5.7-4+b1_amd64.deb
-sudo apt-mark hold dash
+# verify checksum since I can't find an https mirror. There isn't a reliable way to terminate the script during provisioning, so we'll save the result
+# and print it as warning to the user at the end
+DASHVERIFIED=false
+if echo "c55031a57ada3fac236f1936eb111e985bea235b86f9767929fec1e552a81aca dash_0.5.7-4+b1_amd64.deb" | sha256sum -c
+then
+    sudo dpkg -i dash_0.5.7-4+b1_amd64.deb
+    sudo apt-mark hold dash
+    DASHVERIFIED=true
+fi
 
 sudo dpkg-reconfigure -f noninteractive -plow unattended-upgrades
 
@@ -464,5 +471,11 @@ echo "[Unit]
 systemctl enable rc-local
 
 echo '*** DONE! ***'
-sleep 3
-reboot
+if [ "$DASHVERIFIED" = true ]
+then
+    echo "Rebooting in 3 seconds..."
+    sleep 3
+    reboot
+else
+    echo "[-] Dash package checksum doesn't match. It could either be corrupted or tampered with. You should verify/redownload the package before proceeding with the labs. The package can be found at http://ftp.us.debian.org/debian/pool/main/d/dash/dash_0.5.7-4+b1_amd64.deb. After downloading it, verify the checksum matches with echo \"c55031a57ada3fac236f1936eb111e985bea235b86f9767929fec1e552a81aca dash_0.5.7-4+b1_amd64.deb\" | sha256sum -c. Then, install it with sudo dpkg -i dash_0.5.7-4+b1_amd64.deb"
+fi
