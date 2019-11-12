@@ -21,6 +21,7 @@ Major differences between this version and the original warzone:
 * All `gef` optional dependencies have been installed, including `capstone`, `keystone`, `unicorn`, and `ropper`. They are also all available in the python 3 environment
 * The immutable bit has been removed from lab user home directories, so you no longer have to work in `/tmp`. This restriction made sense in a shared environment, but I decided to remove it since most people are working on this solo and working from /tmp was annoying
 * Removed some further restrictions on common programs like `tmux`, `ps`, `kill`, etc. since there is no reason for them in single-user environments
+* Core dumps are now written for all users to `/var/crash`. You will need to `sudo chown` them because apport makes them owned by root and as far as I can tell there is no way to change that behavior
 * The VM is now 64 bit, so if you need to compile any native code you should pass the `-m32` flag to compile it in 32-bit mode
 * All other tools should be updated to current versions
 

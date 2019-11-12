@@ -52,6 +52,10 @@ then
     DASHVERIFIED=true
 fi
 
+# Enable core dumps to /var/crash since apport requires absolute paths to core dump directories
+sudo systemctl enable apport
+sudo sysctl -w kernel.core_pattern=/var/crash/core.%p.%t
+
 sudo dpkg-reconfigure -f noninteractive -plow unattended-upgrades
 
 # download levels
